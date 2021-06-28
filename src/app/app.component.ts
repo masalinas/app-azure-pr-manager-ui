@@ -16,11 +16,10 @@ export class AppComponent {
   public loading: boolean;
   public poolRequestWithRelationss: PoolRequestWithRelations[];
   public users: User[] = [];
-  public selectedUser: User = undefined;
+  public selectedUser: User = null;
 
   constructor(private poolRequestControllerService: PoolRequestControllerService) {
     this.getUsers();  
-    //this.getPullRequests();
   }
 
   private getUsers() {
@@ -37,39 +36,11 @@ export class AppComponent {
       {name: "Cristian David Franco Garcia ", username: "cdfranco@bilbomatica.es"},
       {name: "Ainara Arizaga Beistegi", username: "Ainara Arizaga Beistegi"},
     );
-  }
-
-  private getPullRequests() {
-    this.poolRequestControllerService.poolRequestControllerFind().pipe(map((datum) => datum.map((poolRequestWithRelations: any) => {
-      if (poolRequestWithRelations.closedDate != undefined)
-        poolRequestWithRelations.closedDate = new Date(poolRequestWithRelations.closedDate);
-
-      if (poolRequestWithRelations.targetRefName != undefined) {
-        let tokens: string[] = poolRequestWithRelations.targetRefName.split('/');
-        poolRequestWithRelations.targetRefName = tokens[tokens.length - 1];
-      }
-
-      if (poolRequestWithRelations.sourceRefName != undefined) {
-        let tokens: string[] = poolRequestWithRelations.sourceRefName.split('/');
-        poolRequestWithRelations.sourceRefName = tokens[tokens.length - 1];
-      }
-
-      return poolRequestWithRelations;
-    }))).subscribe((poolRequestWithRelationss: any) => {
-        this.poolRequestWithRelationss = poolRequestWithRelationss;
-
-        //this.loadGrid(this.machines);
-        this.loading = false;
-
-        console.log(this.poolRequestWithRelationss);
-    },
-    err => {
-      console.log(err);
-      this.loading = false;
-    });
-  }
+  }  
 
   public onUserChange(user: User) {
+    this.loading = true;
+
     this.poolRequestControllerService.poolRequestControllerFindById(user.username).pipe(map((datum) => datum.map((poolRequestWithRelations: any) => {
       if (poolRequestWithRelations.closedDate != undefined)
         poolRequestWithRelations.closedDate = new Date(poolRequestWithRelations.closedDate);
@@ -88,10 +59,9 @@ export class AppComponent {
     }))).subscribe((poolRequestWithRelationss: any) => {
         this.poolRequestWithRelationss = poolRequestWithRelationss;
 
-        //this.loadGrid(this.machines);
         this.loading = false;
 
-        console.log(this.poolRequestWithRelationss);
+        //console.log(this.poolRequestWithRelationss);
     },
     err => {
       console.log(err);

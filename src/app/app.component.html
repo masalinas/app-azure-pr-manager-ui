@@ -1,13 +1,10 @@
 <h1>Azure Pull Requests List</h1>
 
-<div class="p-d-flex">
-    <div class="p-field p-grid">
-        <label for="user">User:</label>
-        <div class="p-col" style="width:400px">
-            <p-dropdown id="user" [options]="users" [(ngModel)]="selectedUser" optionLabel="name" (onChange)="onUserChange(selectedUser)">
-            </p-dropdown>
-        </div>
-    </div>
+<div class="p-d-flex" style="width:600px">
+    <div class="p-col">
+        <p-dropdown id="user" [options]="users" [(ngModel)]="selectedUser" optionLabel="name" (onChange)="onUserChange(selectedUser)">
+        </p-dropdown>
+    </div>    
 </div>
 
 <p-table  #dtPR [value]="poolRequestWithRelationss"
