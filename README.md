@@ -1,5 +1,5 @@
 # description
-Azure Pool Request Manager
+Azure Pool Request Manager UI
 
 # generate models
 openapi-generator-cli generate -i swagger.json -g typescript-angular
