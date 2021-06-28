@@ -1,3 +1,15 @@
+<h1>Azure Pull Requests List</h1>
+
+<div class="p-d-flex">
+    <div class="p-field p-grid">
+        <label for="user">User:</label>
+        <div class="p-col" style="width:400px">
+            <p-dropdown id="user" [options]="users" [(ngModel)]="selectedUser" optionLabel="name" (onChange)="onUserChange(selectedUser)">
+            </p-dropdown>
+        </div>
+    </div>
+</div>
+
 <p-table  #dtPR [value]="poolRequestWithRelationss"
           [rows]="10" 
           [showCurrentPageReport]="true"           
@@ -16,23 +28,51 @@
                 </th>          
                 <th>
                     <div class="p-d-flex p-jc-between p-ai-center">
+                        Title
+                        <p-columnFilter type="text" field="title" display="menu"></p-columnFilter>
+                    </div>
+                </th>
+                <th>
+                    <div class="p-d-flex p-jc-between p-ai-center">
                         Repository
                         <p-columnFilter type="text" field="repository" display="menu"></p-columnFilter>
                     </div>
                 </th>
+                <th>
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                        Source Branch
+                        <p-columnFilter type="text" field="sourceRefName" display="menu"></p-columnFilter>
+                    </div>
+                </th> 
+                <th>
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                        Target Branch
+                        <p-columnFilter type="text" field="targetRefName" display="menu"></p-columnFilter>
+                    </div>
+                </th>                
                 <th>                
                     <div class="p-d-flex p-jc-between p-ai-center">
                         Clode Date
                         <p-columnFilter type="date" field="closedDate" display="menu"></p-columnFilter>
-                </div>
+                    </div>
+                </th>
+                <th>                
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                        Status
+                        <p-columnFilter type="text" field="status" display="menu"></p-columnFilter>
+                    </div>
                 </th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-poolRequestWithRelations>
         <tr>
             <td>{{poolRequestWithRelations.createdBy}}</td>          
+            <td>{{poolRequestWithRelations.title}}</td>          
             <td>{{poolRequestWithRelations.repository}}</td>
+            <td>{{poolRequestWithRelations.sourceRefName}}</td>
+            <td>{{poolRequestWithRelations.targetRefName}}</td>
             <td>{{poolRequestWithRelations.closedDate | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+            <td>{{poolRequestWithRelations.status}}</td>
         </tr>
     </ng-template>
 </p-table>
