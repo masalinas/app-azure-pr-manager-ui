@@ -19,11 +19,13 @@ export class AppComponent {
   public selectedUser: User = null;
 
   constructor(private poolRequestControllerService: PoolRequestControllerService) {
-    this.getUsers();  
+    this.getUsers(); 
+    this.getPRs(); 
   }
 
   private getUsers() {
     this.users.push(
+      {name: "All users", username: ""},
       {name: "Miguel Salinas", username: "masalinas@bilbomatica.es"},
       {name: "Daniel Toro", username: "dtoro@bilbomatica.es"},
       {name: "Jaime Rivero", username: "jrivero@gloin.es"},
@@ -35,14 +37,22 @@ export class AppComponent {
       {name: "Ricardo", username: "rflores@gloin.es"},
       {name: "Cristian David Franco Garcia ", username: "cdfranco@bilbomatica.es"},
       {name: "Ainara Arizaga Beistegi", username: "aarizaga@bilbomatica.es"},
-      {name: "Carlos  Rodríguez", username: "carlos.rodriguez@gloin.es"},
+      {name: "Carlos  Rodríguez", username: "carlos.rodriguez@gloin.es"}
     );
   }  
 
   public onUserChange(user: User) {
-    this.loading = true;
+    this.getPRs(user);
+  }
 
-    this.poolRequestControllerService.poolRequestControllerFindById(user.username).pipe(map((datum) => datum.map((poolRequestWithRelations: any) => {
+  private getPRs(user?: User) {
+    this.loading = true;
+    let username: string;
+
+    if (user)
+      username = user.username;
+    
+    this.poolRequestControllerService.poolRequestControllerFindById(username).pipe(map((datum) => datum.map((poolRequestWithRelations: any) => {
       if (poolRequestWithRelations.closedDate != undefined)
         poolRequestWithRelations.closedDate = new Date(poolRequestWithRelations.closedDate);
 
@@ -61,11 +71,10 @@ export class AppComponent {
         this.poolRequestWithRelationss = poolRequestWithRelationss;
 
         this.loading = false;
-
-        //console.log(this.poolRequestWithRelationss);
     },
     err => {
       console.log(err);
+      
       this.loading = false;
     });
   }

@@ -129,12 +129,15 @@ export class PoolRequestControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public poolRequestControllerFindById(username: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<PoolRequestWithRelations>;
-    public poolRequestControllerFindById(username: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<PoolRequestWithRelations>>;
-    public poolRequestControllerFindById(username: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<PoolRequestWithRelations>>;
-    public poolRequestControllerFindById(username: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
-        if (username === null || username === undefined) {
-            throw new Error('Required parameter username was null or undefined when calling poolRequestControllerFindById.');
+    public poolRequestControllerFindById(username?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<PoolRequestWithRelations>;
+    public poolRequestControllerFindById(username?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<PoolRequestWithRelations>>;
+    public poolRequestControllerFindById(username?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<PoolRequestWithRelations>>;
+    public poolRequestControllerFindById(username?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (username !== undefined && username !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>username, 'username');
         }
 
         let headers = this.defaultHeaders;
@@ -159,6 +162,7 @@ export class PoolRequestControllerService {
 
         return this.httpClient.get<PoolRequestWithRelations>(`${this.configuration.basePath}/prs/${encodeURIComponent(String(username))}`,
             {
+                params: queryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

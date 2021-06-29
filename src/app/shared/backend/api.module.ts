@@ -2,11 +2,14 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
+import { PingControllerService } from './api/pingController.service';
+import { PoolRequestControllerService } from './api/poolRequestController.service';
+
 @NgModule({
   imports:      [],
   declarations: [],
   exports:      [],
-  providers:    []
+  providers: []
 })
 export class ApiModule {
     public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders<ApiModule> {

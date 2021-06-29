@@ -2,7 +2,7 @@
 
 <div class="p-d-flex" style="width:600px">
     <div class="p-col">
-        <p-dropdown id="user" [options]="users" [(ngModel)]="selectedUser" optionLabel="name" (onChange)="onUserChange(selectedUser)">
+        <p-dropdown id="user" [showClear]="true" [options]="users" [(ngModel)]="selectedUser" optionLabel="name" (onChange)="onUserChange(selectedUser)">
         </p-dropdown>
     </div>    
 </div>
