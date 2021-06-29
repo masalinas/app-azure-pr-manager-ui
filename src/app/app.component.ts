@@ -34,7 +34,8 @@ export class AppComponent {
       {name: "Fernando Pulido", username: "fpulido@gloin.es"},
       {name: "Ricardo", username: "rflores@gloin.es"},
       {name: "Cristian David Franco Garcia ", username: "cdfranco@bilbomatica.es"},
-      {name: "Ainara Arizaga Beistegi", username: "Ainara Arizaga Beistegi"},
+      {name: "Ainara Arizaga Beistegi", username: "aarizaga@bilbomatica.es"},
+      {name: "Carlos  Rodríguez", username: "carlos.rodriguez@gloin.es"},
     );
   }  
 
