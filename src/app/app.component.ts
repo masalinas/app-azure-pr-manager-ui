@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { TRISTATECHECKBOX_VALUE_ACCESSOR } from 'primeng/tristatecheckbox';
+import { LazyLoadEvent } from 'primeng/api';
 import { map } from 'rxjs/operators';
 
 import { PoolRequestControllerService } from './shared/backend/api/poolRequestController.service';
-import { User } from './shared/backend/model/user';
 import { PoolRequestWithRelations } from './shared/backend/model/poolRequestWithRelations';
 
 @Component({
@@ -14,10 +13,15 @@ import { PoolRequestWithRelations } from './shared/backend/model/poolRequestWith
 export class AppComponent {
   public title = 'PR List Manager';
   public loading: boolean;
-  public poolRequestWithRelationss: PoolRequestWithRelations[];
-  public users: User[] = [];
-  public selectedUser: User = null;
-
+  public poolRequestWithRelationss: PoolRequestWithRelations[] = [];
+  public user: any;
+  public users: any[] = [];
+  public selectedUser: any = null;
+  public event: LazyLoadEvent;
+  public top: number = 20;
+  public page: number = 0;
+  public skip: number;
+  
   constructor(private poolRequestControllerService: PoolRequestControllerService) {
     this.getUsers(); 
     this.getPRs(); 
@@ -37,22 +41,39 @@ export class AppComponent {
       {name: "Ricardo", username: "rflores@gloin.es"},
       {name: "Cristian David Franco Garcia ", username: "cdfranco@bilbomatica.es"},
       {name: "Ainara Arizaga Beistegi", username: "aarizaga@bilbomatica.es"},
-      {name: "Carlos  Rodríguez", username: "carlos.rodriguez@gloin.es"}
+      {name: "Carlos Rodríguez", username: "carlos.rodriguez@gloin.es"}
     );
   }  
 
-  public onUserChange(user: User) {
+  public onPreviousPage() {
+    if (this.page > 0)
+      this.page = this.page - 1;
+
+    this.getPRs();
+  }
+
+  public onNextPage() {
+    this.page = this.page + 1;
+
+    this.getPRs();
+  }
+
+  public onUserChange(user: any) {
+    this.page = 0;
+
     this.getPRs(user);
   }
 
-  private getPRs(user?: User) {
+  private getPRs(user?: any) {
     this.loading = true;
     let username: string;
 
     if (user)
       username = user.username;
     
-    this.poolRequestControllerService.poolRequestControllerFindById(username).pipe(map((datum) => datum.map((poolRequestWithRelations: any) => {
+    this.skip = this.page * this.top;
+
+    this.poolRequestControllerService.poolRequestControllerFindById(this.skip.toString(), this.top.toString(), username).pipe(map((datum) => datum.map((poolRequestWithRelations: any) => {
       if (poolRequestWithRelations.closedDate != undefined)
         poolRequestWithRelations.closedDate = new Date(poolRequestWithRelations.closedDate);
 

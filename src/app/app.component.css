@@ -1,0 +1,20 @@
+.toolbar {
+    padding-bottom: 20px;
+}
+
+.page-title {
+    align-self: center;
+    margin-right: 10px;
+}
+
+.previous-page {
+    margin-right: 10px;
+}
+
+.page {
+    align-self: center;
+}
+
+.next-page {
+    margin-left: 10px;
+}

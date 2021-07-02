@@ -85,56 +85,32 @@ export class PoolRequestControllerService {
     }
 
     /**
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public poolRequestControllerFind(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<PoolRequestWithRelations>>;
-    public poolRequestControllerFind(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<PoolRequestWithRelations>>>;
-    public poolRequestControllerFind(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<PoolRequestWithRelations>>>;
-    public poolRequestControllerFind(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
-
-        let headers = this.defaultHeaders;
-
-        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-
-        let responseType_: 'text' | 'json' = 'json';
-        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType_ = 'text';
-        }
-
-        return this.httpClient.get<Array<PoolRequestWithRelations>>(`${this.configuration.basePath}/prs`,
-            {
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
+     * @param skip 
+     * @param top 
      * @param username 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public poolRequestControllerFindById(username?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<PoolRequestWithRelations>;
-    public poolRequestControllerFindById(username?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<PoolRequestWithRelations>>;
-    public poolRequestControllerFindById(username?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<PoolRequestWithRelations>>;
-    public poolRequestControllerFindById(username?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public poolRequestControllerFindById(skip: string, top: string, username?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<PoolRequestWithRelations>;
+    public poolRequestControllerFindById(skip: string, top: string, username?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<PoolRequestWithRelations>>;
+    public poolRequestControllerFindById(skip: string, top: string, username?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<PoolRequestWithRelations>>;
+    public poolRequestControllerFindById(skip: string, top: string, username?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+        if (skip === null || skip === undefined) {
+            throw new Error('Required parameter skip was null or undefined when calling poolRequestControllerFindById.');
+        }
+        if (top === null || top === undefined) {
+            throw new Error('Required parameter top was null or undefined when calling poolRequestControllerFindById.');
+        }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
+        if (skip !== undefined && skip !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>skip, 'skip');
+        }
+        if (top !== undefined && top !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>top, 'top');
+        }
         if (username !== undefined && username !== null) {
           queryParameters = this.addToHttpParams(queryParameters,
             <any>username, 'username');
@@ -160,7 +136,7 @@ export class PoolRequestControllerService {
             responseType_ = 'text';
         }
 
-        return this.httpClient.get<PoolRequestWithRelations>(`${this.configuration.basePath}/prs/${encodeURIComponent(String(username))}`,
+        return this.httpClient.get<PoolRequestWithRelations>(`${this.configuration.basePath}/prs/${encodeURIComponent(String(skip))}/${encodeURIComponent(String(top))}/${encodeURIComponent(String(username))}`,
             {
                 params: queryParameters,
                 responseType: <any>responseType_,
