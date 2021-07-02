@@ -18,7 +18,7 @@ export class AppComponent {
   public users: any[] = [];
   public selectedUser: any = null;
   public event: LazyLoadEvent;
-  public top: number = 20;
+  public top: number = 100;
   public page: number = 0;
   public skip: number;
   
