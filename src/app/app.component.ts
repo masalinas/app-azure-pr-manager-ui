@@ -60,16 +60,17 @@ export class AppComponent {
 
   public onUserChange(user: any) {
     this.page = 0;
+    this.user = user;
 
-    this.getPRs(user);
+    this.getPRs();
   }
 
-  private getPRs(user?: any) {
+  private getPRs() {
     this.loading = true;
     let username: string;
 
-    if (user)
-      username = user.username;
+    if (this.user)
+      username = this.user.username;
     
     this.skip = this.page * this.top;
 
