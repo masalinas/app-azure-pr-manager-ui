@@ -2,7 +2,7 @@
 
 <div class="p-d-flex toolbar" style="width: 100%;">
     <p-dropdown id="user" [showClear]="true" [options]="users" [(ngModel)]="selectedUser" optionLabel="name" (onChange)="onUserChange(selectedUser)"></p-dropdown>
-    <div class="p-ml-auto page-title">Página</div>
+    <div class="p-ml-auto page-title">Page</div>
     <button pButton pRipple type="button" icon="pi pi-angle-left" class="previous-page" (click)="onPreviousPage()" [disabled]="page === 0"></button>
     <div class="page">{{page + 1}}</div>
     <button pButton pRipple type="button" icon="pi pi-angle-right" class="next-page" (click)="onNextPage()" [disabled]="poolRequestWithRelationss.length < top"></button>
