@@ -45,6 +45,10 @@ export class AppComponent {
     );
   }  
 
+  public onRefresh() {
+    this.getPRs();
+  }
+
   public onPreviousPage() {
     if (this.page > 0)
       this.page = this.page - 1;
