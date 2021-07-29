@@ -10,3 +10,6 @@ npm run start
 
 # build app
 npm run build
+
+# build app for production
+ng build --prod
